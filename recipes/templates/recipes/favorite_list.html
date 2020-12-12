@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Избранные Рецепты
+{% endblock %}
+{% block css %}
+{% static "pages/index.css" %}
+{% endblock %}
+{% block content %}
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Избранное</h1>
+            {% include "recipes/blocks/tag_block.html" %}
+        </div>
+        <div class="card-list">
+            {% for recipe in recipe_list %}
+            {% include "recipes/blocks/recipe_item.html" %}
+            {% endfor %}
+        </div>
+        {% include "recipes/blocks/pagination.html" %}
+    </main>
+{% endblock %}
+{% block scripts %}
+    {% include 'scripts.html' with page='favorite' %}
+{% endblock %}

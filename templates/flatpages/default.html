@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Рецепты
+{% endblock %}
+{% block css %}
+{% static "pages/index.css" %}
+{% endblock %}
+{% block content %}
+    {{ flatpage.content }}
+{% endblock %}

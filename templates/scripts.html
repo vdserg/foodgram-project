@@ -1,0 +1,56 @@
+{% load static %}
+    <script src="{% static '/js/config/config.js' %}"></script>
+    <script src="{% static '/js/components/Header.js' %}"></script>
+    <script src="{% static '/js/api/Api.js' %}"></script>
+{% if page == 'recipe' %}
+    <script src="{% static '/js/components/Purchases.js' %}"></script>
+    <script src="{% static '/js/components/MainCards.js' %}"></script>
+    <script src="{% static '/js/components/SingleCard.js' %}"></script>
+    {% if user.is_authenticated %}
+        <script src="{% static 'singlePage.js' %}"></script>
+        <script src="{% static '/js/components/Favorites.js' %}"></script>
+        <script src="{% static '/js/components/Subscribe.js' %}"></script>
+    {% else %}
+        <script src="{% static 'singlePageNotAuth.js' %}"></script>
+    {% endif %}
+{% endif %}
+{% if page == 'recipe_list' %}
+    <script src="{% static '/js/components/MainCards.js' %}"></script>
+    <script src="{% static '/js/components/Purchases.js' %}"></script>
+    <script src="{% static '/js/components/CardList.js' %}"></script>
+    {% if user.is_authenticated %}
+        <script src="{% static '/js/components/Favorites.js' %}"></script>
+        <script src="{% static 'indexAuth.js' %}"></script>
+    {% else %}
+        <script src="{% static 'indexNotAuth.js' %}"></script>
+    {% endif %}
+{% endif %}
+{% if page == 'recipe_form' %}
+    <script src="{% static '/js/utils/debouncing.js' %}"></script>
+    <script src="{% static 'formRecipe.js' %}"></script>
+{% endif %}
+{% if page == "subscriptions" %}
+    <script src="{% static '/js/components/MainCards.js' %}"></script>
+    <script src="{% static '/js/components/MyFollow.js' %}"></script>
+    <script src="{% static '/js/components/Subscribe.js' %}"></script>
+    <script src="{% static 'myFollow.js' %}"></script>
+{% endif %}
+{% if page == "favorite" %}
+    <script src="{% static '/js/components/MainCards.js' %}"></script>
+    <script src="{% static '/js/components/Purchases.js' %}"></script>
+    <script src="{% static '/js/components/Favorites.js' %}"></script>
+    <script src="{% static '/js/components/CardList.js' %}"></script>
+    <script src="{% static 'favorite.js' %}"></script>
+{% endif %}
+{% if page == "author_detail" %}
+    <script src="{% static '/js/components/MainCards.js' %}"></script>
+    <script src="{% static '/js/components/Purchases.js' %}"></script>
+    <script src="{% static '/js/components/Favorites.js' %}"></script>
+    <script src="{% static '/js/components/Subscribe.js' %}"></script>
+    <script src="{% static '/js/components/AuthorRecipe.js' %}"></script>
+    <script src="{% static 'authorRecipe.js' %}"></script>
+{% endif %}
+{% if page == "shop_list" %}
+    <script src="{% static '/js/components/ShopList.js' %}"></script>
+    <script src="{% static 'shopList.js' %}"></script>
+{% endif %}

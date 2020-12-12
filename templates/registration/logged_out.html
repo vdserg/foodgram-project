@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Вы вышли
+{% endblock %}
+{% block css %}
+    {% static "pages/form.css" %}
+{% endblock %}
+{% block content %}
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Досвидания</h1>
+        </div>
+        <div class="form-container">
+            <p class="form__info-text">Вы вышли из своей учетной записи. Ждем вас снова!</p>
+        </div>
+
+    </main>
+{% endblock %}

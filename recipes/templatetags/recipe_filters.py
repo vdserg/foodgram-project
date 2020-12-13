@@ -1,4 +1,5 @@
 from django import template
+from ..models import RecipeTag
 
 register = template.Library()
 
@@ -10,12 +11,8 @@ def add_class(field, css):
 
 @register.filter
 def add_tag_color(tag_obj):
-    if tag_obj.slug == "breakfast":
-        return "orange"
-    elif tag_obj.slug == "lunch":
-        return "green"
-    elif tag_obj.slug == "dinner":
-        return "purple"
+    if tag_obj.slug in RecipeTag.TAG_COLOR:
+        return RecipeTag.TAG_COLOR[tag_obj.slug]
 
 
 @register.filter

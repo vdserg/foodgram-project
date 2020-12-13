@@ -1,12 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import handler404, handler500
-from django.contrib.flatpages import views
 from django.contrib import admin
+from django.contrib.flatpages import views
 from django.urls import include, path
 
 from .views import e_handler404, e_handler500
-
 
 handler404 = e_handler404
 handler500 = e_handler500

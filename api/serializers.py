@@ -3,11 +3,11 @@ from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
 from recipes.models import (
-    Ingredient,
-    Subscription,
     Favorite,
+    Ingredient,
     Recipe,
     ShoppingList,
+    Subscription,
 )
 
 User = get_user_model()
@@ -43,7 +43,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
         attrs["user"] = user
         attrs["author"] = author
-        return attrs
+        return super(SubscriptionSerializer, self).validate(attrs)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -65,7 +65,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
         attrs["user"] = user
         attrs["recipe"] = recipe
-        return attrs
+        return super(FavoriteSerializer, self).validate(attrs)
 
 
 class ShoppingListSerializer(serializers.ModelSerializer):
@@ -87,4 +87,4 @@ class ShoppingListSerializer(serializers.ModelSerializer):
 
         attrs["user"] = user
         attrs["recipe"] = recipe
-        return attrs
+        return super(ShoppingListSerializer, self).validate(attrs)

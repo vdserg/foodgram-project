@@ -25,10 +25,10 @@
                     <p class="form__label">Теги</p>
                     <div class="form__field-group">
                         <div class="tags">
-                            {% for tag_choice, tag_value in form.tags.field.choices %}
+                            {% for tag_choice, tag in form.tags.field.choices %}
                                 <div class="tags__item">
-                                    <input type="checkbox" name="{{ tag_choice }}" id="id_{{ tag_choice }}" class="tags__checkbox tags__checkbox_style_{{ tag_choice.instance|add_tag_color }}" {% if tag_choice.instance in recipe.tags.all %}checked{% endif %}>
-                                    <label for="id_{{ tag_choice }}" class="tags__label">{{ tag_value }}</label>
+                                    <input type="checkbox" name="{{ tag_choice.instance.slug }}" id="id_{{ tag_choice.instance.slug }}" class="tags__checkbox tags__checkbox_style_{{ tag_choice.instance|add_tag_color }}" {% if tag_choice.instance in recipe.tags.all %}checked{% endif %}>
+                                    <label for="id_{{ tag_choice.instance.slug }}" class="tags__label">{{ tag_choice.instance.title }}</label>
                                 </div>
                             {% endfor %}
                         </div>

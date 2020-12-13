@@ -1,24 +1,20 @@
-from rest_framework.generics import (
-    CreateAPIView,
-    DestroyAPIView,
-    ListAPIView,
-)
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from recipes.models import (
+    Favorite,
     Ingredient,
+    Recipe,
     ShoppingList,
     Subscription,
-    Favorite,
-    Recipe,
 )
+
 from .serializers import (
+    FavoriteSerializer,
     IngredientSerializer,
+    ShoppingListSerializer,
     SubscriptionSerializer,
     User,
-    FavoriteSerializer,
-    ShoppingListSerializer,
 )
 
 
@@ -29,10 +25,7 @@ class IngredientListAPIView(ListAPIView):
         queryset = Ingredient.objects.all()
         query = self.request.query_params.get("query")
 
-        if query:
-            queryset = queryset.filter(title__istartswith=query)
-
-        return queryset
+        return queryset.filter(title__istartswith=query)
 
 
 class SubscriptionCreateAPIView(CreateAPIView):

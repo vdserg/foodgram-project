@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 from .models import (
+    Favorite,
+    Ingredient,
     Recipe,
     RecipeTag,
-    Ingredient,
-    Subscription,
-    Favorite,
     ShoppingList,
+    Subscription,
 )
 
 

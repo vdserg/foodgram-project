@@ -1,17 +1,10 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
-from .models import Recipe, RecipeTag, Ingredient, RecipeIngredient
+from .models import Ingredient, Recipe, RecipeIngredient, RecipeTag
 
 
 class RecipeForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=RecipeTag.objects.all(), to_field_name="slug"
-    )
-    ingredients = forms.ModelMultipleChoiceField(
-        queryset=Ingredient.objects.all(), to_field_name="title"
-    )
-    amount = []
-
     class Meta:
         model = Recipe
         fields = [
@@ -26,23 +19,24 @@ class RecipeForm(forms.ModelForm):
     def __init__(self, data=None, *args, **kwargs):
         if data:
             data = data.copy()
-            for tag in (
-                "breakfast",
-                "lunch",
-                "dinner",
-            ):
+            for tag in RecipeTag.DINNER, RecipeTag.LUNCH, RecipeTag.BREAKFAST:
                 if tag in data:
-                    data.update({"tags": tag})
+                    data.update({"tags": RecipeTag.objects.get(slug=tag)})
             ingredients = self.get_ingredients(data)
             for item in ingredients:
-                data.update({"ingredients": item})
+                try:
+                    data.update(
+                        {"ingredients": Ingredient.objects.get(title=item)}
+                    )
+                except Ingredient.DoesNotExist:
+                    ValidationError(
+                        "Ингредиент не существует, выберите из списка"
+                    )
             self.amount = self.get_amount(data)
-
         super().__init__(data=data, *args, **kwargs)
 
     def save(self, commit=True):
         recipe = super().save(commit=False)
-        print(self.cleaned_data)
         recipe.save()
 
         ingredients_amount = self.amount

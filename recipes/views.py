@@ -1,24 +1,25 @@
-import csv
 import codecs
+import csv
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .forms import RecipeForm
 from .models import (
+    Favorite,
     Recipe,
     RecipeTag,
-    User,
-    Subscription,
-    Favorite,
     ShoppingList,
+    Subscription,
+    User,
 )
-from .viewmixins import TagFilterMixin, RecipeMixin, IsAuthorMixin
+from .viewmixins import IsAuthorMixin, RecipeMixin, TagFilterMixin
 
 
 class RecipeList(RecipeMixin, TagFilterMixin, ListView):
@@ -27,7 +28,7 @@ class RecipeList(RecipeMixin, TagFilterMixin, ListView):
     queryset = (
         Recipe.objects.all()
         .select_related("author")
-        .prefetch_related("tags__recipe_tags")
+        .prefetch_related("tags__recipes")
     )
     extra_context = {"tags": RecipeTag.objects.all()}
 
@@ -133,10 +134,14 @@ class ShoppingCartListView(LoginRequiredMixin, ListView):
 
 class ShoppingListDownload(View):
     def get(self, request, *args, **kwargs):
-        recipes = Recipe.objects.filter(shopping_list__user=request.user)
-        ingredients = recipes.values(
-            "ingredients__title", "ingredients__dimension"
-        ).annotate(Sum("recipe_ingredients__amount"))
+        ingredients = (
+            Recipe.objects.values(
+                "ingredients__title", "ingredients__dimension"
+            )
+            .filter(shopping_list__user=request.user)
+            .annotate(Sum("recipe_ingredients__amount"))
+            .order_by("ingredients__title")
+        )
 
         response = HttpResponse(content_type="text/csv")
         response.write(codecs.BOM_UTF8)

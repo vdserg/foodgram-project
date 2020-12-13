@@ -8,8 +8,10 @@
 {% endblock %}
 {% block content %}
     <main class="main container">
-        <h1 class="main__title">Рецепты</h1>
-        {% include "recipes/blocks/tag_block.html" %}
+        <div class="main__header">
+            <h1 class="main__title">Рецепты</h1>
+            {% include "recipes/blocks/tag_block.html" %}
+        </div>
         <div class="card-list">
             {% for recipe in object_list %}
             {% include "recipes/blocks/recipe_item.html" %}

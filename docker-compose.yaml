@@ -1,0 +1,41 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+  static_volume:
+
+services:
+  db:
+    image: library/postgres:12.5-alpine
+    restart: always
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+  web:
+    image:
+      vdoserg/foodgram:latest
+    restart: always
+    command: >
+      sh -c "
+      python manage.py migrate --noinput
+      && python manage.py collectstatic --noinput
+      && gunicorn foolgram.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+    - static_volume:/code/static
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+  nginx:
+    image: library/nginx:1.19.5-alpine
+    restart: always
+    volumes:
+    - static_volume:/code/static
+    - ./nginx/templates:/etc/nginx/templates
+    ports:
+      - "80:80"
+    env_file:
+      - ./.env
+    depends_on:
+      - web

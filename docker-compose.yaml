@@ -23,6 +23,7 @@ services:
       && gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000"
     volumes:
     - static_volume:/code/static
+    - media_volume:/code/media
     depends_on:
       - db
     env_file:
@@ -32,6 +33,7 @@ services:
     restart: always
     volumes:
     - static_volume:/code/static
+    - media_volume:code/media
     - ./nginx/templates:/etc/nginx/templates
     ports:
       - "80:80"

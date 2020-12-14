@@ -7,7 +7,7 @@ User = get_user_model()
 class Ingredient(models.Model):
     title = models.CharField(
         "Наименование",
-        max_length=20,
+        max_length=100,
     )
     dimension = models.CharField("Единица измерения", max_length=10)
 
@@ -43,13 +43,13 @@ class RecipeTag(models.Model):
 
 class Recipe(models.Model):
 
-    title = models.CharField("Название рецепта", max_length=40, null=False)
+    title = models.CharField("Название рецепта", max_length=100, null=False)
     author = models.ForeignKey(
         User, related_name="recipes", on_delete=models.CASCADE
     )
     image = models.ImageField("Изображение", upload_to="images")
     pub_date = models.DateTimeField("Дата/Время создания", auto_now_add=True)
-    description = models.CharField("Описание", max_length=500, null=False)
+    description = models.CharField("Описание", max_length=800, null=False)
     ingredients = models.ManyToManyField(
         Ingredient, through="RecipeIngredient"
     )

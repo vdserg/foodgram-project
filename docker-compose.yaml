@@ -34,7 +34,7 @@ services:
     restart: always
     volumes:
     - static_volume:/code/static
-    - media_volume:code/media
+    - media_volume:/code/media
     - ./nginx/templates:/etc/nginx/templates
     ports:
       - "80:80"

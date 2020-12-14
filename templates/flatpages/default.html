@@ -4,8 +4,17 @@
     Рецепты
 {% endblock %}
 {% block css %}
-{% static "pages/index.css" %}
+    {% static "pages/index.css" %}
 {% endblock %}
 {% block content %}
-    {{ flatpage.content }}
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Об авторе</h1>
+        </div>
+        <div class="card-list">
+            <div class="custom-center-block">
+                {{ flatpage.content }}
+            </div>
+        </div>
+    </main>
 {% endblock %}

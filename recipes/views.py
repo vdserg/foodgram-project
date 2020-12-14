@@ -138,7 +138,7 @@ class ShoppingListDownload(View):
             Recipe.objects.values(
                 "ingredients__title", "ingredients__dimension"
             )
-            .filter(shopping_list__user=request.user)
+            .filter(in_shopping_list__user=request.user)
             .annotate(Sum("recipe_ingredients__amount"))
             .order_by("ingredients__title")
         )

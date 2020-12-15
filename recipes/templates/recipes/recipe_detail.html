@@ -49,9 +49,9 @@
                     {% if recipe.author != user %}
                         <li class="single-card__item">
                         {% if recipe.author.id not in subscribers %}
-                            <button class="button button_style_blue button_size" name="subscribe" data-out>Подписаться на автора</button>
+                            <button class="button button_size button_style_blue" name="subscribe" data-out>Подписаться на автора</button>
                         {% else %}
-                            <button class="button button_style_light-blue-outline button_size_subscribe" name="subscribe"><span class="icon-check button__icon"></span>Отписаться от автора</button>
+                            <button class="button button_size button_style_light-blue-outline" name="subscribe"><span class="icon-check button__icon"></span>Отписаться от автора</button>
                         {% endif %}
                         </li>
                     {% endif %}

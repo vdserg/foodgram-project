@@ -17,7 +17,7 @@
                     {% for item in cart %}
                         <li class="shopping-list__item" data-id="{{ item.recipe.id }}">
                             <div class="recipe recipe_reverse">
-                                <img src="{{ item.recipe.image.url }}" href="{% url 'recipes:recipe' item.recipe.pk %}" alt="какой-то текст" class="recipe__image recipe__image_big">
+                                <a href="{% url 'recipes:recipe' item.recipe.pk %}"><img src="{{ item.recipe.image.url }}" alt="какой-то текст" class="recipe__image recipe__image_big"></a>
                                 <h3 class="recipe__title" href="{% url 'recipes:recipe' item.recipe.pk %}">{{ item.recipe.title }}</h3>
                                 <p class="recipe__text"><span class="icon-time"></span> {{ item.recipe.time_to_cook }}</p>
                             </div>

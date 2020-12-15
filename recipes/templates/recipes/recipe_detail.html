@@ -15,10 +15,10 @@
                 <div class="single-card__header-info">
                     <h1 class="single-card__title">{{ recipe.title }}</h1>
                     <div class="single-card__favorite">
-                        {% if recipe.id in following_list %}
-                            <button class="button button_style_none" name="favorites"><span class="icon-favorite icon-favorite_active"></span></button>
+                        {% if recipe.id in favorite_list %}
+                            <button class="button button_style_none" name="favorites"><span class="icon-favorite_big icon-favorite_active"></span></button>
                         {% else %}
-                            <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite"></span></button>
+                            <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite_big"></span></button>
                         {% endif %}
                         <div class="single-card__favorite-tooltip tooltip">Добавить в избранное</div>
                     </div>
@@ -47,11 +47,13 @@
                         {% endif %}
                     </li>
                     {% if recipe.author != user %}
-                        {% if recipe.author.id in subscribers %}
-                            <li class="single-card__item"><button class="button button_style_light-blue button_size_subscribe" name="subscribe"><span class="icon-check button__icon"></span> Отписаться от автора</button>
+                        <li class="single-card__item">
+                        {% if recipe.author.id not in subscribers %}
+                            <button class="button button_style_light-blue button_size" name="subscribe" data-out>Подписаться на автора</button>
                         {% else %}
-                            <li class="single-card__item"><button class="button button_style_light-blue button_size_auto" name="subscribe" data-out>Подписаться на автора</button></li>
+                            <button class="button button_style_light-blue-outline button_size_subscribe" name="subscribe"><span class="icon-check button__icon"></span> Отписаться от автора</button>
                         {% endif %}
+                        </li>
                     {% endif %}
                 </ul>
                 <div class="single-card__section">

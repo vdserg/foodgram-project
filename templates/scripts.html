@@ -7,9 +7,9 @@
     <script src="{% static '/js/components/MainCards.js' %}"></script>
     <script src="{% static '/js/components/SingleCard.js' %}"></script>
     {% if user.is_authenticated %}
-        <script src="{% static 'singlePage.js' %}"></script>
         <script src="{% static '/js/components/Favorites.js' %}"></script>
         <script src="{% static '/js/components/Subscribe.js' %}"></script>
+        <script src="{% static 'singlePage.js' %}"></script>
     {% else %}
         <script src="{% static 'singlePageNotAuth.js' %}"></script>
     {% endif %}

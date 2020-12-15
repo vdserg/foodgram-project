@@ -40,8 +40,8 @@ class RecipeForm(forms.ModelForm):
         recipe.save()
 
         ingredients_amount = self.amount
-        recipe.ingredients.all().delete()
-        recipe_ingredients = [
+        recipe.recipe_ingredients.all().delete()
+        ingredients = [
             RecipeIngredient(
                 recipe=recipe,
                 ingredient=ingredient,
@@ -49,7 +49,7 @@ class RecipeForm(forms.ModelForm):
             )
             for ingredient in self.cleaned_data["ingredients"]
         ]
-        recipe.recipe_ingredients.set(recipe_ingredients, bulk=False)
+        recipe.recipe_ingredients.set(ingredients, bulk=False)
 
         recipe.tags.set(self.cleaned_data["tags"])
 

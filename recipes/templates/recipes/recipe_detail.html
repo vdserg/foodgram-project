@@ -33,19 +33,19 @@
                     <ul class="single-card__items">
                         <li class="single-card__item"><p class="single-card__text"><span class="icon-user"></span>
                             {{ recipe.author.get_full_name }}</p></li>
+                        {% if recipe.author == request.user %}
                         <li class="single-card__item">  <a style="margin-left: 2.5em" href="{% url 'recipes:recipe_edit' recipe.pk %}" class="single-card__text">Редактировать рецепт</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <ul class="single-card__items">
                     <li class="single-card__item"><button class="button button_style_blue" name="purchases" data-out><span class="icon-plus"></span> Добавить в покупки</button></li>
                     {% if recipe.author != user %}
-
                         {% if recipe.author.id in subscribers %}
-                            <button class="button button_style_light-blue button_size_auto button_style_light-blue-outline" name="subscribe"><span class="icon-check button__icon"></span> Отписаться от автора</button>
+                            <li class="single-card__item"><button class="button button_style_light-blue button_size_subscribe" name="subscribe"><span class="icon-check button__icon"></span> Отписаться от автора</button>
                         {% else %}
                             <li class="single-card__item"><button class="button button_style_light-blue button_size_auto" name="subscribe" data-out>Подписаться на автора</button></li>
                         {% endif %}
-
                     {% endif %}
                 </ul>
                 <div class="single-card__section">

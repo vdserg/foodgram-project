@@ -1,4 +1,5 @@
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from recipes.models import (
@@ -8,7 +9,6 @@ from recipes.models import (
     ShoppingList,
     Subscription,
 )
-
 from .serializers import (
     FavoriteSerializer,
     IngredientSerializer,
@@ -64,10 +64,11 @@ class ShoppingListCreateAPIView(CreateAPIView):
 
 class ShoppingListDeleteAPIView(DestroyAPIView):
     serializer_class = ShoppingListSerializer
-    queryset = Recipe.objects.all()
+    queryset = ShoppingList.objects.all()
 
-    def destroy(self, request, *args, **kwargs):
-        ShoppingList.objects.filter(
-            user=self.request.user, recipe=self.get_object()
-        ).delete()
-        return Response(data={"success": True})
+    def delete(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=kwargs.get("pk"))
+        recipe_in_cart = recipe.in_shopping_list.filter(user=request.user)
+        if recipe_in_cart.delete():
+            return Response({"success": True})
+        return Response({"success": False})

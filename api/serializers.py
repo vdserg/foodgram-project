@@ -13,10 +13,21 @@ from recipes.models import (
 User = get_user_model()
 
 
-class RecipesSerializerMixin(metaclass=serializers.SerializerMetaclass):
+class IngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields = ["title", "dimension"]
+
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    id = serializers.SlugRelatedField(
+        slug_field="id", queryset=User.objects.all(), source="author"
+    )
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
+        model = Subscription
         fields = ["id", "user"]
         validators = [
             UniqueTogetherValidator(
@@ -25,41 +36,33 @@ class RecipesSerializerMixin(metaclass=serializers.SerializerMetaclass):
         ]
 
 
-class IngredientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = ["title", "dimension"]
-
-
-class SubscriptionSerializer(
-    RecipesSerializerMixin, serializers.ModelSerializer
-):
-    id = serializers.SlugRelatedField(
-        slug_field="id", queryset=User.objects.all(), source="author"
-    )
-
-    class Meta:
-        model = Subscription
-        fields = RecipesSerializerMixin.Meta.fields
-
-
-class FavoriteSerializer(RecipesSerializerMixin, serializers.ModelSerializer):
+class FavoriteSerializer(serializers.ModelSerializer):
     id = serializers.SlugRelatedField(
         slug_field="id", queryset=Recipe.objects.all(), source="recipe"
     )
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Favorite
-        fields = RecipesSerializerMixin.Meta.fields
+        fields = ["id", "user"]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Favorite.objects.all(), fields=["id", "user"]
+            )
+        ]
 
 
-class ShoppingListSerializer(
-    RecipesSerializerMixin, serializers.ModelSerializer
-):
+class ShoppingListSerializer(serializers.ModelSerializer):
     id = serializers.SlugRelatedField(
         slug_field="id", queryset=Recipe.objects.all(), source="recipe"
     )
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = ShoppingList
-        fields = RecipesSerializerMixin.Meta.fields
+        fields = ["id", "user"]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ShoppingList.objects.all(), fields=["id", "user"]
+            )
+        ]

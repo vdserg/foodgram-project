@@ -19,7 +19,6 @@ class IngredientSerializer(serializers.ModelSerializer):
         fields = ["title", "dimension"]
 
 
-
 class SubscriptionSerializer(serializers.ModelSerializer):
     id = serializers.SlugRelatedField(
         slug_field="id", queryset=User.objects.all(), source="author"
